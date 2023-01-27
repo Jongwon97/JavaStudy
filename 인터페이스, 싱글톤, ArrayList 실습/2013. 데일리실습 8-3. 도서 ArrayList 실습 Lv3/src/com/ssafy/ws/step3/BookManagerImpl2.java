@@ -1,30 +1,37 @@
 package com.ssafy.ws.step3;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 도서리스트를 컬렉션으로 유지하며 관리하는 클래스
  */
-public class BookManagerImpl implements IBookManager {
+public class BookManagerImpl2 implements IBookManager {
 	
-	private static List<Book> books=new ArrayList<Book>();	 // 리스트로 입력받으면 나중에 다른 종류의 리스트를 사용할 때, ArrayList만 바꾸면 됨. + List사용법만 알면됨.
-	private static BookManagerImpl instance=new BookManagerImpl(); 	// 싱글톤 객체 생성
-	private BookManagerImpl() {}  // private 생성자 -> 객체를 생성하지 못하게 함
+	private static Map<Integer,Book> books=new HashMap<Integer,Book>();	
+	private static BookManagerImpl2 instance=new BookManagerImpl2(); 	// 싱글톤 객체 생성
+	private BookManagerImpl2() {}  // private 생성자 -> 객체를 생성하지 못하게 함
+	private static int num=0;
 	
 	public static IBookManager getInstance(){
 		return instance;
 	}
 	// 1.도서정보 등록하는 add 메소드
 	public void add(Book book) {
-		books.add(book);
+		books.put(num,book);
+		num++;
 	}
 	// 2.고유번호로 도서정보 삭제하는 remove 메소드
 	public void remove(String isbn) {
 		for(int i=0;i<books.size();i++) {
 			if(books.get(i).getIsbn().equals(isbn)){
+				// 맨 뒤에있는 것을 삭제한 자리로 옮김
 				books.remove(i);
+				books.put(i, books.get(num-1));
+				books.remove(num-1);
 				System.out.println("***********************"+isbn+" 삭제 완료!"+"***********************");
+				num--;
 				break;
 			}
 		}
@@ -32,10 +39,9 @@ public class BookManagerImpl implements IBookManager {
 	// 3.도서 리스트를 반환하는 메소드
 	public Book[] getList() {
 		Book[] book=new Book[books.size()];
-		int i=0;
-		for(Book bo:books) {
-			book[i]=bo;
-			i++;
+
+		for(int i=0;i<books.size();i++) {
+			book[i]=books.get(i);
 		}
 		return book;
 	}

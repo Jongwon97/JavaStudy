@@ -5,7 +5,7 @@ package com.ssafy.ws.step3;
  */
 public class BookTest {
 	public static void main(String[] args) {
-		IBookManager BM= BookManagerImpl.getInstance();  // 인터페이스의 다형성 -> 사용자는 인터페이스의 메소드만 알면 기능 사용 가능
+		IBookManager BM= BookManagerImpl2.getInstance();  // 인터페이스의 다형성 -> 사용자는 인터페이스의 메소드만 알면 기능 사용 가능
 		
 		// 도서 객체 등록
 		Book Bk1=new Book("21424","Java Pro","김하나","jaen.kr",15000,"Java 기본문법");
